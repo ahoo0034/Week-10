@@ -1,0 +1,79 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": { "text": "Stacked Line Graph: Australian-born vs Overseas-born Populations" },
+    "data": {
+      "url": "data/proportion_born_overseas.csv",
+      "format": { "type": "csv" }
+    },
+    
+    "params": [
+      {
+        "name": "MinYear",
+        "value": 1891,
+        "bind": {
+          "input": "range",
+          "min": 1891,
+          "max": 2023,
+          "step": 1,
+          "name": "Select Min Year: "
+        }
+      },
+      {
+        "name": "MaxYear",
+        "value": 2023,
+        "bind": {
+          "input": "range",
+          "min": 1891,
+          "max": 2023,
+          "step": 1,
+          "name": "Select Max Year: "
+        }
+      }
+    ],
+    "transform": [
+      {
+        "fold": ["Number_of_Australian-born_(M)", "Number_of_overseas-born_(M)"],
+        "as": ["Origin", "Population"]
+      },
+      {
+        "filter": "datum.Year >= MinYear && datum.Year <= MaxYear"
+      }
+    ],
+    
+    "layer": [
+      {
+        "mark": {
+          "type": "area",
+          "line": true,
+          "point": true
+        },
+        "encoding": {
+          "x": {
+            "field": "Year",
+            "type": "quantitative", 
+            "title": "Year"
+          },
+          "y": {
+            "field": "Population",
+            "type": "quantitative",
+            "title": "Population (M)"
+          },
+          "color": {
+            "field": "Origin",
+            "type": "nominal",
+            "title": "Origin",
+            "scale": {
+              "domain": ["Number_of_Australian-born_(M)", "Number_of_overseas-born_(M)"],
+              "range": ["#1f77b4", "#ff7f0e"]
+            }
+          },
+          "tooltip": [
+            { "field": "Year", "type": "quantitative", "title": "Year" },
+            { "field": "Origin", "type": "nominal", "title": "Origin" },
+            { "field": "Population", "type": "quantitative", "title": "Population (M)" }
+          ]
+        }
+      }
+    ]
+  }
+  

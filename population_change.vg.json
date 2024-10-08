@@ -1,0 +1,34 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": { "text": "Australia state population" },
+    "data": {
+        "url": "data/population_change.csv"
+    },
+    "params": [
+    {
+      "name": "StateSelection",
+      "value": "All",
+      "bind": {
+        "input": "select",
+        "options": ["All", "New South Wales", "Victoria", "Queensland", "Western Australia", "South Australia", "Tasmania", "Northern Territory", "Australian Capital Territory"],
+        "name": "Select State: "
+      }
+    }
+  ],
+  "transform": [
+    {
+      "filter": "StateSelection == 'All' || datum.States == StateSelection"
+    }
+  ],
+    "mark": "bar",
+    "encoding": {
+        "x": { "field": "Population", "type": "quantitative", "title":"Population"},
+        "y": { "field": "States", "type": "nominal", "title": "State"},
+        "tooltip": [
+        { "field": "States", "type": "nominal", "title": "State" },
+        { "field": "Population", "type": "quantitative", "title": "Population" },
+        { "field": "Change over previous year (%)", "type": "quantitative", "title": "Change (%)" }
+        ]
+        
+    }
+}
